@@ -1,0 +1,38 @@
+{
+  "name": "Better Twitch Menu",
+  "version": "1.0",
+  "description": "Improves the User Experience",
+  "permissions": ["activeTab", "declarativeContent", "storage"],
+  "options_page": "options.html",  
+  "background": {
+    "scripts": ["background.js"],
+    "persistent": false
+  },
+  "page_action": {
+      "default_popup": "options.html",
+       "icons": {
+		"16": "images/logo256.png",
+		"32": "images/logo256.png",
+		"48": "images/logo256.png",
+		"128": "images/logo256.png"
+	  }
+    },
+  "content_scripts": [
+   {
+     "matches": ["https://*.twitch.tv/*"],
+     "js": ["jquery.js", "options.js", "default.js"],
+	 "css": ["followerList.css"]
+   },
+   {
+     "matches": ["https://*.twitch.tv/directory/following/games"],
+     "js": ["options.js", "followed.js"]
+   }
+ ],
+  "icons": {
+    "16": "images/logo256.png",
+    "32": "images/logo256.png",
+    "48": "images/logo256.png",
+    "128": "images/logo256.png"
+  },
+  "manifest_version": 2
+}

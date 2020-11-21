@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+  <html>
+    <head>
+      <style>
+        body {
+			background-color:#111;
+			color:white;
+			min-width:400px;
+		}
+		select {
+			background-color:black;
+			color:white;
+		}
+		legend {
+			font-variant: small-caps;
+			font-size: 1.1em;
+			background-color:#751db8;
+			
+		}
+		fieldset {
+			border:none;
+		}
+		a, a:link, a:visited {
+			color:#bd66ff;
+		}
+      </style>
+	  
+    </head>
+    <body>
+      <div id="main">		
+		<fieldset>
+			<legend><input id="UseOverlayMenu" type="checkbox"></input> <label for="UseOverlayMenu">Overlay Menu</label></legend>
+			<input id="GroupByCategory" type="checkbox"></input>
+			<label for="GroupByCategory">Group followers by streamed category</label><br>
+			<input style="margin-left:25px;" id="AlwaysShowCategory" type="checkbox"></input>
+			<label for="AlwaysShowCategory">Always show all followed categories</label><br>
+			<input id="SortByAlphabet" type="checkbox"></input>
+			<label for="SortByAlphabet">Sort by alphabet rather than viewer count</label><br>
+			<input id="FollowedFirst" type="checkbox"></input>
+			<label for="FollowedFirst">Show followed categories first</label><br>			
+			<input id="DoNotShowOfflineUsers" type="checkbox"></input>
+			<label for="DoNotShowOfflineUsers">Don't display offline users</label><br>		
+			<input id="NonFollowedOffline" type="checkbox"></input>
+			<label for="NonFollowedOffline">Consider user offline when streaming a non-followed category</label><br>
+		</fieldset><br>	
+		<fieldset>
+			<legend>Top Bar</legend>
+			<input id="ShowHideTopBarOnDoubleclick" type="checkbox"></input>
+			<label for="ShowHideTopBarOnDoubleclick">Hide/Show on doubleclick</label><br>
+			<input id="ShowOnlineUsersInTopBar" type="checkbox"></input>
+			<label for="ShowOnlineUsersInTopBar">Show followed channels (live only)</label><br>
+			<input style="margin-left:25px;"  id="SwapSearchbarAndTopFollowerList" type="checkbox"></input>
+			<label for="SwapSearchbarAndTopFollowerList">Swap positions of search and channels</label><br>
+			<input id="HidePrimeLoot" type="checkbox"></input>
+			<label for="HidePrimeLoot">Remove Prime/Payment info</label>
+		</fieldset><br>		
+		<fieldset>
+			<legend>Followed Categories</legend>
+			<select id="FollowedCategoryList" rows="3" multiple="true">
+			</select><br>	
+			Open <a href="https://www.twitch.tv/directory/following/games" target="_blank">Followed Games</a> to update the list. Category titles in green has been added to the list.
+		</fieldset>
+      </div>      
+    </body>
+	<script src="options.js"></script>
+  </html>
