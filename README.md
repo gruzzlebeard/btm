@@ -12,6 +12,26 @@ This chrome extension is designed to rework the "Followed Channels"-menu in the 
 
 ## Installation
 
-Go to the Releases Page, download the CRX-file and drop it into your chromium-based browser. 
+### In Google Chrome
 
-If the extension won't show up (propably happening in Vivaldi), download the zip-Version, unpack it, switch Developer-mode in the extension manager on and load the unpacked version
+Chrome only accepts sideloading extensions if the extension is signed by the Chrome Web Store, which this isn't. Install the extension By Source.
+
+### In Opera
+
+Download the CRX file and drop it into the browser
+
+### In Vivaldi
+
+Vivaldi does not react when dropping the CRX file unless you turn on Developer mode in `chrome://extensions/`
+
+### By Source (works in all chromium based browser)
+
+1. Download the source of the extension ("Source Code (zip)" of the [Release](https://github.com/gruzzlebeard/btm/releases/latest))
+2. Unpack it somewhere
+3. Open `chrome://extensions/`
+4. Enable "Developer mode" (upper right corner)
+5. Click "Load unpacked" (upper left corner)
+6. Navigate into the unpacked directory and click Select Folder
+7. The extension now appears and Developer Mode can be turned off again
+
+You will not be asked for permissions due to Developer mode, but you can view the required permissions (and more) by clicking on Details. There you also can find the extensions' settings.
