@@ -383,7 +383,10 @@ let observer = new MutationObserver(mutations => {
 
 			if (settings.UseOverlayMenu) {
 				hideSideNav();
+			} else {
+				showSideNav();
 			}
+			
 			if (isLoggedIn()) {
 				sideNavExpandAll();
 			}
