@@ -15,14 +15,15 @@ function setMainNavVisibility(visible) {
 	if (!settings.ShowHideTopBarOnDoubleclick) {
 		visible = true;
 	}
-	document.getElementsByClassName("top-nav")[0].style.display = visible ? "" : "none";
-	chrome.storage.local.set({ HiddenTopBar: document.getElementsByClassName("top-nav")[0].style.display == "none" }, function (result) {
+	settings.VisibleTopBar = visible;
+	document.getElementsByClassName("top-nav")[0].style.setProperty('display', visible ? 'block' : 'none', 'important');//.display = visible ? "" : "none";
+	chrome.storage.local.set({ VisibleTopBar: visible }, function (result) {
 
 	});
 }
 
 function toggleMainNavVisibility() {
-	setMainNavVisibility(document.getElementsByClassName("top-nav")[0].style.display == "none");
+	setMainNavVisibility(!settings.VisibleTopBar);
 }
 
 function isLoggedIn() {
@@ -123,7 +124,6 @@ function sortAlphabet(a, b) {
 }
 
 function setUpTopNavFollowerList() {
-	debugger;
 	if (settings.SwapSearchbarAndTopFollowerList) {
 		let bar = $('a[data-a-target="esports-link"]')[0].parentElement.parentElement.parentElement;
 		bar.removeChild(bar.children[3]);
@@ -344,16 +344,6 @@ function updateFollowerList() {
 
 
 function init() {
-	if (settings.ShowHideTopBarOnDoubleclick) {
-		chrome.storage.local.get(['HiddenTopBar', 'ShowHideTopBarOnDoubleclick'], function (result) {
-			if (result.HiddenTopBar == undefined) {
-				setMainNavVisibility(!settings.HiddenTopBar);
-			} else {
-				setMainNavVisibility(result.HiddenTopBar === false);
-			}
-		});
-	}
-
 	chrome.storage.local.get(['ShowOnlineUsersInTopBar'], function (result) {
 		if (result.ShowOnlineUsersInTopBar != undefined) {
 			settings.ShowOnlineUsersInTopBar = result.ShowOnlineUsersInTopBar;
@@ -381,12 +371,6 @@ let observer = new MutationObserver(mutations => {
 				hideBits();
 			}
 
-			if (settings.UseOverlayMenu) {
-				hideSideNav();
-			} else {
-				showSideNav();
-			}
-			
 			if (isLoggedIn()) {
 				sideNavExpandAll();
 			}

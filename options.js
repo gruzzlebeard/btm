@@ -18,7 +18,7 @@ var settings =
 	//Stores the current state of the Top Bar's visibility. 
 	//This value is not used when ShowHideTopBarOnDoubleclick is false
 	//There's no need to change this value by hand
-	HiddenTopBar: false,
+	VisibleTopBar: false,
 
 	//If false, the classic follower menu of Twitch will be used
 	UseOverlayMenu: true,
@@ -42,7 +42,7 @@ var settings =
 	ShowOnlineUsersInTopBar: true,
 
 	//Swaps the position of the search bar and the top followerlist (if ShowOnlineUsersInTopBar is true)
-	SwapSearchbarAndTopFollowerList: false,
+	SwapSearchbarAndTopFollowerList: true,
 
 	//List of categories that are followed. 
 	//The category name has to match exactly as shown on the page
@@ -60,7 +60,7 @@ var settings =
 var optionPage = document.getElementById('ShowHideTopBarOnDoubleclick') != null;
 
 function loadSettings() {
-	chrome.storage.local.get(['SwapSearchbarAndTopFollowerList', 'ShowOnlineUsersInTopBar', 'NonFollowedOffline', 'AlwaysShowCategory', 'FollowedFirst', 'GroupByCategory', 'SortByAlphabet', 'ShowHideTopBarOnDoubleclick', 'DoNotShowOfflineUsers', 'HidePrimeLoot', 'FollowedCategoryList', 'UseOverlayMenu'], function (result) {
+	chrome.storage.local.get(['SwapSearchbarAndTopFollowerList', 'ShowOnlineUsersInTopBar','VisibleTopBar', 'NonFollowedOffline', 'AlwaysShowCategory', 'FollowedFirst', 'GroupByCategory', 'SortByAlphabet', 'ShowHideTopBarOnDoubleclick', 'DoNotShowOfflineUsers', 'HidePrimeLoot', 'FollowedCategoryList', 'UseOverlayMenu'], function (result) {
 
 		if (result.ShowHideTopBarOnDoubleclick != undefined) {
 			settings.ShowHideTopBarOnDoubleclick = result.ShowHideTopBarOnDoubleclick;
@@ -70,6 +70,9 @@ function loadSettings() {
 		}
 		if (result.HidePrimeLoot != undefined) {
 			settings.HidePrimeLoot = result.HidePrimeLoot;
+		}
+		if (result.VisibleTopBar != undefined) {
+			settings.VisibleTopBar = result.VisibleTopBar;
 		}
 		if (result.FollowedCategoryList != undefined) {
 			settings.FollowedCategoryList = result.FollowedCategoryList;
@@ -98,6 +101,18 @@ function loadSettings() {
 		if (result.SwapSearchbarAndTopFollowerList != undefined) {
 			settings.SwapSearchbarAndTopFollowerList = result.SwapSearchbarAndTopFollowerList;
 		}
+
+		var style = document.createElement('style');
+		if(settings.UseOverlayMenu) {
+			style.innerHTML += '#sideNav { display: none !important; }';
+		}
+		if(!settings.VisibleTopBar && settings.ShowHideTopBarOnDoubleclick) {
+			style.innerHTML += '.top-nav { display: none !important; }';
+		}
+		if(style.innerHTML != '') {
+			document.getElementsByTagName('head')[0].appendChild(style);
+		}
+		
 
 		initSettingsPanel();
 	});
