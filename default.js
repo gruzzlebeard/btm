@@ -187,6 +187,16 @@ function sortViewers(a, b) {
 		return x * -1;
 	}
 
+	x = cmp(a.videos, b.videos);
+	if (x != 0) {
+		return x * -1;
+	}
+
+	x = cmp(a.name.toUpperCase(), b.name.toUpperCase());
+	if (x != 0) {
+		return x;
+	}
+
 	return 0;
 }
 
