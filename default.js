@@ -1,5 +1,4 @@
 
-
 var menuNeedsRefresh = true;
 
 function hideSideNav() {
@@ -45,7 +44,11 @@ function getFollowerData() {
 	$('a[data-test-selector="followed-channel"]').each(function (index) {
 		let entry = null;
 
-		if ($(this).find('span')[0].innerText != "Offline" && (!settings.NonFollowedOffline || settings.FollowedCategoryList.includes($(this).find('p')[1].innerText))) {
+		var isOnline = $(this).find('span')[0].innerText != "Offline";
+		var isFav = settings.ChannelList[$(this).find('img')[0].alt];
+		var isFavCat = settings.FollowedCategoryList.includes($(this).find('p')[1].innerText);
+
+		if (isOnline && (!settings.NonFollowedOffline || (isFav||isFavCat))) {
 			entry = {
 				name: $(this).find('img')[0].alt,
 				icon: $(this).find('img')[0].src,
@@ -279,8 +282,12 @@ function updateTopFollowerList(list = null) {
 	} else {
 		d = getFollowerData();
 
-		if (list !== true && tl.innerHTML != '') //if not called by the timeout only update to first-populate
+		if (list !== true && tl.innerHTML != '') {
+			//if not called by the timeout only update to first-populate
+			d.map(x => addChannel(x.name));
+			saveChannelList();
 			return;
+		}
 
 		if (settings.SortByAlphabet) {
 			d = d.sort(sortAlphabet);

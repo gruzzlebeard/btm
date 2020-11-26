@@ -23,6 +23,12 @@
 		a, a:link, a:visited {
 			color:#bd66ff;
 		}
+		
+		.channelList {
+			height:150px;
+			overflow:auto;
+			margin-left:25px;
+		}
       </style>
 	  
     </head>
@@ -33,15 +39,10 @@
 			<input id="GroupByCategory" type="checkbox"></input>
 			<label for="GroupByCategory">Group followers by streamed category</label><br>
 			<input style="margin-left:25px;" id="AlwaysShowCategory" type="checkbox"></input>
-			<label for="AlwaysShowCategory">Always show all followed categories</label><br>
-			<input id="SortByAlphabet" type="checkbox"></input>
-			<label for="SortByAlphabet">Sort by alphabet rather than viewer count</label><br>
-			<input id="FollowedFirst" type="checkbox"></input>
+			<label for="AlwaysShowCategory">Always show all followed categories</label><br>			
+			<input style="margin-left:25px;" id="FollowedFirst" type="checkbox"></input>
 			<label for="FollowedFirst">Show followed categories first</label><br>			
-			<input id="DoNotShowOfflineUsers" type="checkbox"></input>
-			<label for="DoNotShowOfflineUsers">Don't display offline users</label><br>		
-			<input id="NonFollowedOffline" type="checkbox"></input>
-			<label for="NonFollowedOffline">Consider user offline when streaming a non-followed category</label><br>
+			
 		</fieldset><br>	
 		<fieldset>
 			<legend>Top Bar</legend>
@@ -59,6 +60,19 @@
 			<select id="FollowedCategoryList" rows="3" multiple="true">
 			</select><br>	
 			Open <a href="https://www.twitch.tv/directory/following/games" target="_blank">Followed Games</a> to update the list. Category titles in green has been added to the list.
+		</fieldset><br>
+		<fieldset>
+			<legend>Followed Channels</legend>
+			<input id="SortByAlphabet" type="checkbox"></input>
+			<label for="SortByAlphabet">Sort by alphabet rather than viewer count</label><br>
+			<input id="DoNotShowOfflineUsers" type="checkbox"></input>
+			<label for="DoNotShowOfflineUsers">Don't display offline streamers</label><br><br>		
+			<input id="NonFollowedOffline" type="checkbox"></input>
+			<label for="NonFollowedOffline">Consider channel offline when streaming a non-followed category</label><br>
+			<span style="margin-left:25px;">Exclude from this:</span>
+			<div class="channelList" id="ChannelList">
+				
+			</div>
 		</fieldset>
       </div>      
     </body>

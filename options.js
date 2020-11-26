@@ -46,7 +46,12 @@ var settings =
 
 	//List of categories that are followed. 
 	//The category name has to match exactly as shown on the page
-	FollowedCategoryList: []
+	FollowedCategoryList: [],
+
+	//When NonFollowedOffline is true, any indexes (channels) that are true will be excluded from it
+	//example:   ChannelList: { "ninja": true, "shroud": false }   
+	//only shroud will be considered offline when streaming a non-followed category
+	ChannelList: {}
 };
 
 
@@ -60,7 +65,7 @@ var settings =
 var optionPage = document.getElementById('ShowHideTopBarOnDoubleclick') != null;
 
 function loadSettings() {
-	chrome.storage.local.get(['SwapSearchbarAndTopFollowerList', 'ShowOnlineUsersInTopBar','VisibleTopBar', 'NonFollowedOffline', 'AlwaysShowCategory', 'FollowedFirst', 'GroupByCategory', 'SortByAlphabet', 'ShowHideTopBarOnDoubleclick', 'DoNotShowOfflineUsers', 'HidePrimeLoot', 'FollowedCategoryList', 'UseOverlayMenu'], function (result) {
+	chrome.storage.local.get(['ChannelList', 'SwapSearchbarAndTopFollowerList', 'ShowOnlineUsersInTopBar','VisibleTopBar', 'NonFollowedOffline', 'AlwaysShowCategory', 'FollowedFirst', 'GroupByCategory', 'SortByAlphabet', 'ShowHideTopBarOnDoubleclick', 'DoNotShowOfflineUsers', 'HidePrimeLoot', 'FollowedCategoryList', 'UseOverlayMenu'], function (result) {
 
 		if (result.ShowHideTopBarOnDoubleclick != undefined) {
 			settings.ShowHideTopBarOnDoubleclick = result.ShowHideTopBarOnDoubleclick;
@@ -101,6 +106,9 @@ function loadSettings() {
 		if (result.SwapSearchbarAndTopFollowerList != undefined) {
 			settings.SwapSearchbarAndTopFollowerList = result.SwapSearchbarAndTopFollowerList;
 		}
+		if (result.ChannelList != undefined) {
+			settings.ChannelList = result.ChannelList;
+		}
 
 		var style = document.createElement('style');
 		if(settings.UseOverlayMenu) {
@@ -132,6 +140,8 @@ function initSettingsPanel() {
 		document.getElementById('ShowOnlineUsersInTopBar').checked = settings.ShowOnlineUsersInTopBar;
 		document.getElementById('SwapSearchbarAndTopFollowerList').checked = settings.SwapSearchbarAndTopFollowerList;
 		document.getElementById('FollowedCategoryList').innerHTML = settings.FollowedCategoryList.map(x => '<option>' + x + '</option>');
+		document.getElementById('ChannelList').innerHTML = Object.keys(settings.ChannelList).map((key,index) => '<input type="checkbox" id="channel_'+key+'" '+(settings.ChannelList[key] ? 'checked':'')+'></input><label for="channel_'+key+'">' + key + '</label><br>').join('');
+		Object.keys(settings.ChannelList).map((key,index) => document.getElementById('channel_'+key).addEventListener('change', saveChannel));
 	}
 }
 
@@ -140,6 +150,23 @@ function saveSetting() {
 	if (this.type == "checkbox") {
 		setting[this.id] = this.checked;
 		chrome.storage.local.set(setting, function (result) { });
+	}
+}
+
+function saveChannel() {
+	if (this.type == "checkbox") {
+		settings.ChannelList[this.id.substring(8)] = this.checked;
+		chrome.storage.local.set(settings, function (result) { });
+	}
+}
+
+function saveChannelList() {
+	chrome.storage.local.set(settings, function (result) { });
+}
+
+function addChannel(name) {
+	if(settings.ChannelList[name] == undefined) {
+		settings.ChannelList[name] = false;
 	}
 }
 
@@ -161,6 +188,7 @@ if (optionPage) {
 	document.getElementById('NonFollowedOffline').addEventListener('change', saveSetting);
 	document.getElementById('ShowOnlineUsersInTopBar').addEventListener('change', saveSetting);
 	document.getElementById('SwapSearchbarAndTopFollowerList').addEventListener('change', saveSetting);
+	
 }
 
 loadSettings();
