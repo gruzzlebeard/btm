@@ -306,7 +306,9 @@ function updateTopFollowerList(list = null) {
 		if (!i.online) {
 			continue;
 		}
-		tl.innerHTML += '<li class="topfollow"><a href="' + i.href + '" title="' + i.name + ' &#10; &nbsp;' + i.game + '"><img src="' + i.icon + '"><br><span class="stat on">' + i.viewers + '</span></a></li>';
+		if(!i.dummy) {
+			tl.innerHTML += '<li class="topfollow"><a href="' + i.href + '" title="' + i.name + ' &#10; &nbsp;' + i.game + '"><img src="' + i.icon + '"><br><span class="stat on">' + i.viewers + '</span></a></li>';
+		}
 
 	}
 
@@ -341,15 +343,19 @@ function updateFollowerList() {
 				if (i.game == "") {
 					fl.innerHTML += '<li class="sep off">Offline</li>';
 				} else {
-					fl.innerHTML += '<li class="sep game">' + (settings.FollowedCategoryList.includes(i.game) ? '&#9733; ' + i.game : i.game) + '</li>';
+					fl.innerHTML += '<li class="sep game"><a href="/directory/game/'+encodeURI(i.game)+'/">' + (settings.FollowedCategoryList.includes(i.game) ? '&#9733; ' + i.game : i.game) + '</a></li>';
 				}
 				lastGame = i.game;
 			}
 		}
 		if (i.online && !i.dummy) {
-			fl.innerHTML += '<li><a href="' + i.href + '" title="' + i.game + '"><img src="' + i.icon + '"><span class="name">' + i.name + '</span><span class="stat on">' + i.viewers + '</span></a></li>';
+			fl.innerHTML += '<li class="nh"><a href="' + i.href + '" title="' + i.game + '"><img src="' + i.icon + '"><span class="name">' + i.name + '</span><span class="stat on">' + i.viewers + '</span></a></li>';
 		} else {
-			fl.innerHTML += '<li class="off"><a href="' + i.href + '"><span class="name">' + i.name + '</span><span class="stat vid">' + (i.videos > 0 ? i.videos : '') + '</span></a></li>';
+			if(i.dummy)  {
+				fl.innerHTML += '<li class="off nh">-</li>';
+			} else {
+				fl.innerHTML += '<li class="off nh"><a href="' + i.href + '"><span class="name">' + i.name + '</span><span class="stat vid">' + (i.videos > 0 ? i.videos : '') + '</span></a></li>';
+			}
 		}
 	}
 	fl.innerHTML += '</ul>';

@@ -140,7 +140,7 @@ function initSettingsPanel() {
 		document.getElementById('ShowOnlineUsersInTopBar').checked = settings.ShowOnlineUsersInTopBar;
 		document.getElementById('SwapSearchbarAndTopFollowerList').checked = settings.SwapSearchbarAndTopFollowerList;
 		document.getElementById('FollowedCategoryList').innerHTML = settings.FollowedCategoryList.map(x => '<option>' + x + '</option>');
-		document.getElementById('ChannelList').innerHTML = Object.keys(settings.ChannelList).map((key,index) => '<input type="checkbox" id="channel_'+key+'" '+(settings.ChannelList[key] ? 'checked':'')+'></input><label for="channel_'+key+'">' + key + '</label><br>').join('');
+		document.getElementById('ChannelList').innerHTML = Object.keys(settings.ChannelList).sort((a,b) => a.toUpperCase() > b.toUpperCase() ? 1 : -1).map((key,index) => '<input type="checkbox" id="channel_'+key+'" '+(settings.ChannelList[key] ? 'checked':'')+'></input><label for="channel_'+key+'">' + key + '</label><br>').join('');
 		Object.keys(settings.ChannelList).map((key,index) => document.getElementById('channel_'+key).addEventListener('change', saveChannel));
 	}
 }
@@ -156,12 +156,12 @@ function saveSetting() {
 function saveChannel() {
 	if (this.type == "checkbox") {
 		settings.ChannelList[this.id.substring(8)] = this.checked;
-		chrome.storage.local.set(settings, function (result) { });
+		saveChannelList();
 	}
 }
 
 function saveChannelList() {
-	chrome.storage.local.set(settings, function (result) { });
+	chrome.storage.local.set({'ChannelList': settings.ChannelList}, function (result) { });
 }
 
 function addChannel(name) {

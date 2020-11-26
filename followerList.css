@@ -24,7 +24,6 @@
 
 #cfl a, #cfl a:link, #cfl a:visited {
 	color:white;
-	padding-left: 20px;
 	display:block;
 	cursor:pointer !important;
 }
@@ -49,9 +48,11 @@
   
 }
 
-#cfl li a{
+#cfl li {
   display:block;
-  padding-left:20px;
+}
+#cfl .nh {
+	padding-left:20px;
 }
 #cfl li a:hover {
   background-color:#2e2e30;
