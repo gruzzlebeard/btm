@@ -165,7 +165,7 @@ function saveChannelList() {
 }
 
 function addChannel(name) {
-	if(settings.ChannelList[name] == undefined) {
+	if(settings.ChannelList[name] == undefined && name != "-") {
 		settings.ChannelList[name] = false;
 	}
 }
