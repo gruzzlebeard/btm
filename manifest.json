@@ -1,6 +1,6 @@
 {
   "name": "Better Twitch Menu",
-  "version": "1.0",
+  "version": "1.1",
   "description": "Improves the User Experience",
   "permissions": ["activeTab", "declarativeContent", "storage"],
   "options_page": "options.html",  
